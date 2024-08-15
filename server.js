@@ -1,6 +1,7 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const path = require('path');
+const db = require('./database');  // Import the database connection
 
 const app = express();
 const port = 3000;
@@ -11,17 +12,16 @@ app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, 'views'));
 app.use(express.static(path.join(__dirname, 'public')));
 
-// In-memory message storage
-let messages = [];
-
 // Routes
-const indexRoute = require('./routes/index');
-const newRoute = require('./routes/new');
-const messageRoute = require('./routes/message');
+const indexRoute = require('./routes/index')(db);
+const newRoute = require('./routes/new')(db);
+const messageRoute = require('./routes/message')(db);
+const usersRoute = require('./routes/users')(db);
 
-app.use('/', indexRoute(messages));
-app.use('/new', newRoute(messages));
-app.use('/message', messageRoute(messages)); // New route for individual messages
+app.use('/', indexRoute);
+app.use('/new', newRoute);
+app.use('/message', messageRoute);
+app.use('/users', usersRoute);
 
 app.listen(port, () => {
   console.log(`Message board app listening at http://localhost:${port}`);

@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>New User</title>
+</head>
+<body>
+  <h1>Create a New User</h1>
+
+  <!-- Display validation errors if any -->
+  <% if (errors && errors.length > 0) { %>
+    <ul>
+      <% errors.forEach(error => { %>
+        <li><%= error.msg %></li>
+      <% }) %>
+    </ul>
+  <% } %>
+
+  <form action="/users/new" method="POST">
+    <div>
+      <label for="username">Username:</label>
+      <input type="text" id="username" name="username" value="<%= data.username || '' %>" required>
+    </div>
+    <div>
+      <label for="email">Email:</label>
+      <input type="email" id="email" name="email" value="<%= data.email || '' %>" required>
+    </div>
+    <button type="submit">Create User</button>
+  </form>
+  <a href="/users">Back to User List</a>
+</body>
+</html>

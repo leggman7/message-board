@@ -7,14 +7,24 @@
 </head>
 <body>
   <h1>Post a New Message</h1>
+
+  <!-- Display validation errors if any -->
+  <% if (errors && errors.length > 0) { %>
+    <ul>
+      <% errors.forEach(error => { %>
+        <li><%= error.msg %></li>
+      <% }) %>
+    </ul>
+  <% } %>
+
   <form action="/new" method="POST">
     <div>
       <label for="title">Title:</label>
-      <input type="text" id="title" name="title" required>
+      <input type="text" id="title" name="title" value="<%= data.title || '' %>" required>
     </div>
     <div>
       <label for="content">Content:</label>
-      <textarea id="content" name="content" required></textarea>
+      <textarea id="content" name="content" required><%= data.content || '' %></textarea>
     </div>
     <button type="submit">Post</button>
   </form>

@@ -1,11 +1,15 @@
 const express = require('express');
 
-
-module.exports = (messages) => {
+module.exports = (db) => {
   const router = express.Router();
-  
+
   router.get('/', (req, res) => {
-    res.render('index', { messages });
+    db.all('SELECT * FROM messages', [], (err, rows) => {
+      if (err) {
+        return res.status(500).send('Database error: ' + err.message);
+      }
+      res.render('index', { messages: rows });
+    });
   });
 
   return router;

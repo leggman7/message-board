@@ -1,14 +1,18 @@
 const express = require('express');
 
-module.exports = (messages) => {
+module.exports = (db) => {
   const router = express.Router();
 
   router.get('/:id', (req, res) => {
-    const message = messages.find(m => m.id === req.params.id);
-    if (!message) {
-      return res.status(404).send('Message not found');
-    }
-    res.render('message', { message });
+    db.get('SELECT * FROM messages WHERE id = ?', [req.params.id], (err, row) => {
+      if (err) {
+        return res.status(500).send('Database error: ' + err.message);
+      }
+      if (!row) {
+        return res.status(404).send('Message not found');
+      }
+      res.render('message', { message: row });
+    });
   });
 
   return router;
