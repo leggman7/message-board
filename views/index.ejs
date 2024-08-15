@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Message Board</title>
+</head>
+<body>
+  <h1>Message Board</h1>
+  <ul>
+    <% messages.forEach(message => { %>
+      <li>
+        <h2><a href="/message/<%= message.id %>"><%= message.title %></a></h2> <!-- Link to the individual message page -->
+        <small>Posted on <%= message.timestamp.toLocaleString() %></small>
+      </li>
+    <% }) %>
+  </ul>
+  <a href="/new">New Message</a>
+</body>
+</html>
